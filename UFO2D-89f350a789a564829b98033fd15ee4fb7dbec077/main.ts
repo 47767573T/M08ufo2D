@@ -51,6 +51,8 @@ class mainState extends Phaser.State {
             }else if (this.cursor.right.isDown) {
                 this.ufo.body.velocity.acceleration.x = this.UFO_ACCELERATION;
             }else if(this.ufo.body.velocity.x < 0){
+                this.ufo.body.velocity.x +=this.UFO_FRICTION
+            }else if(this.ufo.body.velocity.x > 0){
                 this.ufo.body.velocity.x -=this.UFO_FRICTION
             }
 
