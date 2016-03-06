@@ -3,11 +3,13 @@
 class mainState extends Phaser.State {
     game: Phaser.Game;
     private ufo:Phaser.Sprite;
+    private cursor:Phaser.CursorKeys;
 
+    //var de movimiento
     private UFO_MAX_SPEED = 200;
     private UFO_FRICTION = 30;
-    private UFO_ACCELERATION = 25;
-    private cursor:Phaser.CursorKeys;
+    private UFO_ACCELERATION = 150;
+
 
 
     preload():void {
@@ -40,29 +42,44 @@ class mainState extends Phaser.State {
     update():void {
         super.update();
         this.game.debug.bodyInfo(this.ufo, 0, 0);
-
-
-
-        //this.ufo.body.velocity.x = 0;
-        //this.ufo.body.velocity.y = 0;
+        var horizontalVelocity;
+        var verticalVelocity;
 
             if (this.cursor.left.isDown) {
-                this.ufo.body.acceleration.x = -this.UFO_ACCELERATION;
-            }else if (this.cursor.right.isDown) {
-                this.ufo.body.velocity.acceleration.x = this.UFO_ACCELERATION;
-            }else if(this.ufo.body.velocity.x < 0){
-                this.ufo.body.velocity.x +=this.UFO_FRICTION
-            }else if(this.ufo.body.velocity.x > 0){
-                this.ufo.body.velocity.x -=this.UFO_FRICTION
+                if (horizontalVelocity > 0){
+                    horizontalVelocity -= this.UFO_ACCELERATION;
+                    this.ufo.body.acceleration.x = horizontalVelocity;
+                } else {
+                    this.ufo.body.acceleration.x = -this.UFO_MAX_SPEED;
+                    horizontalVelocity = -this.UFO_MAX_SPEED;
+                }
+
+            } else if (this.cursor.right.isDown) {
+                if (horizontalVelocity < 0){
+                    horizontalVelocity += this.UFO_ACCELERATION;
+                    this.ufo.body.acceleration.x = horizontalVelocity;
+                }else {
+                    this.ufo.body.acceleration.x = this.UFO_MAX_SPEED;
+                    horizontalVelocity = this.UFO_MAX_SPEED
+                }
             }
 
-
-
             if (this.cursor.up.isDown) {
-                this.ufo.body.acceleration.y = -this.UFO_ACCELERATION;
-
+                if (verticalVelocity > 0){
+                    verticalVelocity -= this.UFO_ACCELERATION;
+                    this.ufo.body.acceleration.y = verticalVelocity;
+                }else {
+                    this.ufo.body.acceleration.y = -this.UFO_MAX_SPEED;
+                    verticalVelocity = -this.UFO_MAX_SPEED
+                }
             } else if (this.cursor.down.isDown) {
-                this.ufo.body.acceleration.y = this.UFO_ACCELERATION;
+                if (verticalVelocity < 0){
+                    verticalVelocity += this.UFO_ACCELERATION;
+                    this.ufo.body.acceleration.y = verticalVelocity;
+                }else {
+                    this.ufo.body.acceleration.y = this.UFO_MAX_SPEED;
+                    verticalVelocity = this.UFO_MAX_SPEED
+                }
             }
 
     }
