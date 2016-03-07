@@ -37,8 +37,6 @@ class mainState extends Phaser.State {
         this.load.image('bgAbajo', 'assets/Background-2-1.png');
         this.load.image('bgAbajoDerecha', 'assets/Background-2-2.png');*/
 
-
-
         //this.load.image('background', 'assets/Background_low.png');
         //this.physics.startSystem(Phaser.Physics.ARCADE);
     }
