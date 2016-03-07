@@ -8,7 +8,7 @@ class mainState extends Phaser.State {
     //var de movimiento
     private UFO_MAX_SPEED = 200;
     private UFO_FRICTION = 30;
-    private UFO_ACCELERATION = 150;
+    private UFO_ACCELERATION = 180;
 
 
 
@@ -18,7 +18,7 @@ class mainState extends Phaser.State {
         this.load.image('ufo', 'assets/UFO_low.png');
         this.load.image('pickup', 'assets/Pickup_low.png');
         this.load.image('background', 'assets/Background_low.png');
-        //this.physics.startSystem(Phaser.Physics.ARCADE);this.physics.startSystem(Phaser.Physics.ARCADE);
+        //this.physics.startSystem(Phaser.Physics.ARCADE);
     }
 
     create():void {
@@ -34,52 +34,32 @@ class mainState extends Phaser.State {
         this.ufo.anchor.setTo(0.5, 0.5);
 
         this.physics.enable(this.ufo);
-        this.ufo.body.maxVelocity.setTo(this.UFO_MAX_SPEED, this.UFO_MAX_SPEED);
         this.cursor = this.input.keyboard.createCursorKeys();
+
+        this.ufo.body.maxVelocity.setTo(this.UFO_MAX_SPEED, this.UFO_MAX_SPEED);
+        this.ufo.body.drag.setTo(this.UFO_FRICTION, this.UFO_FRICTION);
+        this.ufo.body.collideWorldBounds = true;
+        this.ufo.body.bounce.setTo(1);
+
 
     }
 
     update():void {
         super.update();
         this.game.debug.bodyInfo(this.ufo, 0, 0);
-        var horizontalVelocity;
-        var verticalVelocity;
 
             if (this.cursor.left.isDown) {
-                if (horizontalVelocity > 0){
-                    horizontalVelocity -= this.UFO_ACCELERATION;
-                    this.ufo.body.acceleration.x = horizontalVelocity;
-                } else {
-                    this.ufo.body.acceleration.x = -this.UFO_MAX_SPEED;
-                    horizontalVelocity = -this.UFO_MAX_SPEED;
-                }
+                this.ufo.body.acceleration.x =-this.UFO_ACCELERATION;
 
             } else if (this.cursor.right.isDown) {
-                if (horizontalVelocity < 0){
-                    horizontalVelocity += this.UFO_ACCELERATION;
-                    this.ufo.body.acceleration.x = horizontalVelocity;
-                }else {
-                    this.ufo.body.acceleration.x = this.UFO_MAX_SPEED;
-                    horizontalVelocity = this.UFO_MAX_SPEED
-                }
+                this.ufo.body.acceleration.x =this.UFO_ACCELERATION;
             }
 
             if (this.cursor.up.isDown) {
-                if (verticalVelocity > 0){
-                    verticalVelocity -= this.UFO_ACCELERATION;
-                    this.ufo.body.acceleration.y = verticalVelocity;
-                }else {
-                    this.ufo.body.acceleration.y = -this.UFO_MAX_SPEED;
-                    verticalVelocity = -this.UFO_MAX_SPEED
-                }
+                this.ufo.body.acceleration.y =-this.UFO_ACCELERATION;
+
             } else if (this.cursor.down.isDown) {
-                if (verticalVelocity < 0){
-                    verticalVelocity += this.UFO_ACCELERATION;
-                    this.ufo.body.acceleration.y = verticalVelocity;
-                }else {
-                    this.ufo.body.acceleration.y = this.UFO_MAX_SPEED;
-                    verticalVelocity = this.UFO_MAX_SPEED
-                }
+                this.ufo.body.acceleration.y =this.UFO_ACCELERATION;
             }
 
     }
